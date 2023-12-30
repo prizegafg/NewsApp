@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 
 class HomePresenter: VTPHomeProtocol {
+    
     //MARK: - Property HomePresenter
     var view: PTVHomeProtocol?
     var interactor: PTIHomeProtocol?
@@ -28,8 +29,8 @@ class HomePresenter: VTPHomeProtocol {
         interactor?.getTopHeadline(key: key)
     }
     
-    func startGetAllNews(key: String) {
-        interactor?.getAllNews(key: key)
+    func startGetAllNews(key: String, from: String, to: String) {
+        interactor?.getAllNews(key: key, from: from, to: to)
     }
     
     func startNavToDetail(data: [ArticleModel], nav: UINavigationController) {
@@ -38,6 +39,10 @@ class HomePresenter: VTPHomeProtocol {
     
     func startNavToDetailFromCell(data: [AllArticleModel], index: Int, nav: UINavigationController) {
         router?.navToDetailFromCell(data: data, index: index, nav: nav)
+    }
+    
+    func startGoToDetailWebVW(url: String, nav: UINavigationController) {
+        router?.goToDetailWebVW(url: url, nav: nav)
     }
     
     

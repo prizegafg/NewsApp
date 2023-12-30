@@ -22,10 +22,13 @@ class HomeView: UIViewController {
     var dataArticle: [ArticleModel] = []
     var dataEverything: [AllArticleModel] = []
     var rowCount: Int? = 0
+    var url: String?
+    let currentDate = Date()
     override func viewDidLoad() {
         setUpView()
         setUpAction()
         setUpData()
+        LoadingIndicator.startAnimating()
     }
     
     //MARK: - Function HomeView
@@ -50,8 +53,10 @@ class HomeView: UIViewController {
     }
     
     func setUpData(){
+        let from = DateToString.shared.formatTodayDateToString(date: DateManipulator.decreaseDateByOneMonth(from: currentDate) ?? Date())
+        let to = DateToString.shared.formatTodayDateToString(date: currentDate)
         presenter?.startGetTopHeadline(key: key)
-        presenter?.startGetAllNews(key: key)
+        presenter?.startGetAllNews(key: key, from: from, to: to)
         
     }
     
@@ -59,7 +64,8 @@ class HomeView: UIViewController {
         print("OK OK OK")
         print("label successfully clicked")
         if let navigation = navigationController{
-            presenter?.startNavToDetail(data: dataArticle, nav: navigation)
+//            presenter?.startNavToDetail(data: dataArticle, nav: navigation)
+            presenter?.startGoToDetailWebVW(url: url ?? "", nav: navigation)
         }
     }
     
@@ -74,6 +80,7 @@ extension HomeView: PTVHomeProtocol {
         lblTitleHeadline.text = firstArticle.title
         lblAuthor.text = firstArticle.author
         lblDate.text = DateConverter.convertDateString(firstArticle.publishedAt)
+        url = firstArticle.url
         if firstArticle.urlToImage == nil {
             imgTopHeadlines.isHidden = true
             labelNoData.isHidden = false
@@ -94,6 +101,7 @@ extension HomeView: PTVHomeProtocol {
         }
         vwTableAllNews.reloadData()
         print("success")
+        LoadingIndicator.stopAnimating()
         
     }
     
@@ -108,7 +116,7 @@ extension HomeView: PTVHomeProtocol {
 
 extension HomeView: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return rowCount ?? 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -125,7 +133,9 @@ extension HomeView: UITableViewDelegate, UITableViewDataSource{
                 title: dataDetail.title,
                 author: dataDetail.author ?? "",
                 date: dataDetail.publishedAt,
-                image: dataDetail.urlToImage ?? "")
+                image: dataDetail.urlToImage ?? "",
+                url: dataDetail.url
+            )
             cell.setUpData(dataCell: dataCell, index: indexPath.row)
         }
         return cell

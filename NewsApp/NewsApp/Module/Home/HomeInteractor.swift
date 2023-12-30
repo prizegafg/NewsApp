@@ -46,13 +46,14 @@ class HomeInteractor: PTIHomeProtocol {
         }
     }
     
-    func getAllNews(key: String) {
+    func getAllNews(key: String, from: String, to: String) {
         let apiUrl = "https://newsapi.org/v2/everything"
         let parameters: [String: Any] = [
             "q": "Indonesia",
             "language": "id",
-            "from": "2023-12-30",
-            "to": "2023-12-10",
+            "from": from,
+            "to": to,
+            "sortBy": "publishedAt",
             "apiKey": key
         ]
         AF.request(apiUrl, method: .get, parameters: parameters).responseJSON { response in

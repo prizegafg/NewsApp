@@ -8,7 +8,6 @@
 import UIKit
 
 class HomeRouter: PTRHomeProtocol {
-    
     static func createHomeModule() -> HomeView {
         let view =  HomeView()
         let presenter =  HomePresenter(viewController: view)
@@ -38,6 +37,13 @@ class HomeRouter: PTRHomeProtocol {
         vw.navFrom = .AllHeadline
         nav.pushViewController(vw, animated: true)
     }
+    
+    func goToDetailWebVW(url: String, nav: UINavigationController) {
+        let vw = DetailNewsWebRouter.createDetailNewsWebModule()
+        vw.url = url
+        nav.pushViewController(vw, animated: true)
+    }
+    
     
 }
 

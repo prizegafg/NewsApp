@@ -26,6 +26,7 @@ class HomeTVC: UITableViewCell {
     var dataTo: [AllArticleModel] = []
     var parentViewController: UIViewController?
     var indexNumb: Int?
+    var url: String?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -44,10 +45,12 @@ class HomeTVC: UITableViewCell {
     @objc func labelTapped(_ sender: UITapGestureRecognizer) {
         if let viewController = parentViewController {
             if let navigation = viewController.navigationController{
-                let vw = DetailNewsRouter.createDetailNewsModule()
-                vw.dataAllNews = dataTo
-                vw.indexNumb = indexNumb ?? 0
-                vw.navFrom = .AllHeadline
+//                let vw = DetailNewsRouter.createDetailNewsModule()
+//                vw.dataAllNews = dataTo
+//                vw.indexNumb = indexNumb ?? 0
+//                vw.navFrom = .AllHeadline
+                let vw = DetailNewsWebRouter.createDetailNewsWebModule()
+                vw.url = url ?? ""
                 navigation.pushViewController(vw, animated: true)
             }
         }
@@ -71,6 +74,7 @@ class HomeTVC: UITableViewCell {
         lblAuthor.text = dataCell.author
         lblDate.text = DateConverter.convertDateString(dataCell.date)
         indexNumb = index
+        url = dataCell.url
         if dataCell.image.isEmpty {
             lblNoImage.isHidden = false
             imgHeadline.isHidden = true
@@ -91,10 +95,12 @@ struct HomeTVCModel{
     var author: String
     var date: String
     var image: String
-    init(title: String, author: String, date: String, image: String) {
+    var url: String
+    init(title: String, author: String, date: String, image: String, url: String) {
         self.title = title
         self.author = author
         self.date = date
         self.image = image
+        self.url = url
     }
 }

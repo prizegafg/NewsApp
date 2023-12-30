@@ -13,10 +13,11 @@ protocol VTPHomeProtocol: AnyObject {
     var router: PTRHomeProtocol? { get set }
     
     func startGetTopHeadline(key: String)
-    func startGetAllNews(key: String)
+    func startGetAllNews(key: String, from: String, to: String)
     
     func startNavToDetail(data: [ArticleModel], nav: UINavigationController)
     func startNavToDetailFromCell(data: [AllArticleModel], index: Int, nav: UINavigationController)
+    func startGoToDetailWebVW(url: String, nav: UINavigationController)
     
 }
 
@@ -24,7 +25,7 @@ protocol PTIHomeProtocol: AnyObject {
     var presenter: ITPHomeProtocol? { get set }
     
     func getTopHeadline(key: String)
-    func getAllNews(key: String)
+    func getAllNews(key: String, from: String, to: String)
 
 }
 
@@ -45,5 +46,6 @@ protocol PTRHomeProtocol: AnyObject {
     static func createHomeModule() -> HomeView
     func navToDetail(data: [ArticleModel], nav: UINavigationController)
     func navToDetailFromCell(data: [AllArticleModel], index: Int, nav: UINavigationController)
+    func goToDetailWebVW(url: String, nav: UINavigationController)
     
 }

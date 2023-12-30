@@ -24,3 +24,38 @@ class DateConverter {
         }
     }
 }
+
+class DateToString {
+
+    static let shared = DateToString()
+
+    private let dateFormatter: DateFormatter
+
+    private init() {
+        dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale.current // Set the locale as needed
+    }
+
+    func formatTodayDateToString(date: Date) -> String {
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: date)
+    }
+}
+
+class DateManipulator {
+    static let shared = DateManipulator()
+
+    static func decreaseDateByOneMonth(from date: Date) -> Date? {
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current // Set the time zone if needed
+
+        // Get the current date components
+        var dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
+
+        // Decrease the month by 1
+        dateComponents.month = (dateComponents.month ?? 0) - 1
+
+        // Create a new date using the modified date components
+        return calendar.date(from: dateComponents)
+    }
+}
