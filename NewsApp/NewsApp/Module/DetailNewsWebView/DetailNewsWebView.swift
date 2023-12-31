@@ -25,14 +25,17 @@ class DetailNewsWebView: UIViewController {
     
     //MARK: - Function DetailNewsWebView
     func setUpView(){
-        LoadingIndicator.startAnimating()
+        webView.navigationDelegate = self
+
+        // Start observing the loading state of the web view
+        webView.addObserver(self, forKeyPath: #keyPath(WKWebView.isLoading), options: .new, context: nil)
+
+        
         webView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         if let url = URL(string: url ?? "https://www.google.com") {
             let request = URLRequest(url: url)
             webView.load(request)
         }
-        
-        LoadingIndicator.stopAnimating()
         
     }
     
@@ -40,8 +43,30 @@ class DetailNewsWebView: UIViewController {
         
     }
     
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "isLoading" {
+            if webView.isLoading {
+                // Start animating the activity indicator when the web view starts loading
+                LoadingIndicator.startAnimating()
+            } else {
+                // Stop animating the activity indicator when the web view finishes loading
+                LoadingIndicator.stopAnimating()
+            }
+        }
+    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        // Stop animating the activity indicator when the web view finishes loading
+        LoadingIndicator.stopAnimating()
+    }
+    
+    // Deinitialize the observers when the view is about to disappear
+    
+    
+    deinit {
+        webView.removeObserver(self, forKeyPath: #keyPath(WKWebView.isLoading))
+    }
+    
 
-    //MARK: - Function Action DetailNewsWebView
     
     
 }
@@ -50,4 +75,8 @@ class DetailNewsWebView: UIViewController {
 
 extension DetailNewsWebView: PTVDetailNewsWebProtocol {
 
+}
+
+extension DetailNewsWebView: WKNavigationDelegate{
+    
 }

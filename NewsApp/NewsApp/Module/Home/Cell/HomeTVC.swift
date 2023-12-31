@@ -33,6 +33,8 @@ class HomeTVC: UITableViewCell {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped(_:)))
         lblTitleHeadline.isUserInteractionEnabled = true
         lblTitleHeadline.addGestureRecognizer(tapGesture)
+        vwHomeTVC.layer.cornerRadius = 20
+        imgHeadline.layer.cornerRadius = 20
         
     }
 
@@ -74,6 +76,8 @@ class HomeTVC: UITableViewCell {
         lblAuthor.text = dataCell.author
         lblDate.text = DateConverter.convertDateString(dataCell.date)
         indexNumb = index
+        vwHomeTVC.layer.cornerRadius = 20
+        imgHeadline.layer.cornerRadius = 20
         url = dataCell.url
         if dataCell.image.isEmpty {
             lblNoImage.isHidden = false
