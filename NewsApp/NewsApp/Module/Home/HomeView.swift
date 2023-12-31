@@ -18,7 +18,7 @@ class HomeView: UIViewController {
     @IBOutlet weak var labelNoData: UILabel!
     
     var presenter: VTPHomeProtocol?
-    var key = "0d4c8a4ec1fe491eb71a43cf4d420528"
+    var key = "3e5dc3954955425db760b0361ae2d529"
     var dataArticle: [ArticleModel] = []
     var dataEverything: [AllArticleModel] = []
     var rowCount: Int? = 0
