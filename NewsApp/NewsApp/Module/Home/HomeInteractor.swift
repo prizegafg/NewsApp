@@ -17,7 +17,7 @@ class HomeInteractor: PTIHomeProtocol {
     func getTopHeadline(key: String) {
         let apiUrl = "https://newsapi.org/v2/top-headlines"
         let parameters: [String: Any] = [
-            "country": "us",
+            "country": "id",
             "apiKey": key
         ]
         AF.request(apiUrl, method: .get, parameters: parameters).responseJSON { response in
